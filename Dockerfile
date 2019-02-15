@@ -36,6 +36,10 @@ WORKDIR /home/bashit
 
 RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it
 
+RUN rm -rf ~/.ssh .gitconfig && \
+        ln -s ~/winhome/.ssh/ ~/ && \
+        ln -s ~/winhome/.gitconfig ~/
+
 RUN ~/.bash_it/install.sh --interactive
 RUN bash -i -c "bash-it enable completion docker docker-compose git pip3 system"
 
