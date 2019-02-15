@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# https://stackoverflow.com/questions/59895/get-the-source-directory-of-a-bash-script-from-within-the-script-itself
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+guessed_workspace=$(dirname $script_dir)
+
+docker run --rm -ti \
+    --mount "type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock" \
+    --mount "type=bind,src=$guessed_workspace,dst=$guessed_workspace" \
+    --mount "type=volume,src=bashit-home,dst=/home/bashit" \
+    --mount "type=bind,src=$HOME,dst=/home/bashit/winhome" \
+    -w "$(pwd)" \
+    bash-it
